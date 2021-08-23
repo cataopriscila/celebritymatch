@@ -5,7 +5,7 @@ function FaceRecognition ({ imageUrl, box }) {
         <>
         <div className= 'center column ma'>
             <div className= 'relative mt4'>
-               <img id= 'inputimage' alt= '' src= {imageUrl} width= '400rem' height= 'auto' /> 
+               <img id= 'inputimage' alt= '' src= {imageUrl} /> 
                <div className= 'bounding-box' style={{top: box.topRow, right: box.rightCol, bottom: box.bottomRow, left: box.leftCol}}></div> 
             </div>                                                       
         </div>             

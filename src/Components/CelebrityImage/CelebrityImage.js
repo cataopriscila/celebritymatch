@@ -8,7 +8,7 @@ const CelebrityImage = ({ imageCelebrity, imageCelebrityStep,  nameCelebrity }) 
                     <h4 style={{fontSize: '2rem'}}>{nameCelebrity.toUpperCase()}</h4>                             
             </div>            
            <div className= 'relative mt2'>
-                <img  alt= '' src= {imageCelebrity} onError= {onError} width= '400rem' height= 'auto'/>                
+                <img  alt= '' src= {imageCelebrity} onError= {onError} />                
             </div>                               
         </div>         
     );

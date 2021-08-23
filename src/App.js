@@ -57,7 +57,7 @@ const particlesOptions = {
 const initialState = {
   input: "",
   imageUrl: "",
-  nameCelebrity: "",
+  nameCelebrity: "",  
   index: 0,
   images: {},
   box: {},
@@ -93,6 +93,7 @@ class App extends Component {
   loadReset = () => {
     this.setState({
       nameCelebrity: "",
+      index: 0,
       images: {},
       box: {},
     });
@@ -120,6 +121,17 @@ class App extends Component {
     this.setState({ input: event.target.value });
   };
 
+  
+
+  getCelebrityName = (data) => {
+     
+    let i = this.state.index;    
+    // const nameCelebrity = data.outputs[0].data.regions[0].data.concepts[i].name;
+    const celebrity = data[i].name;
+    this.setState({index: i + 1})    
+    return celebrity;
+  };
+
   getCelebrityImagesByName = (searchname) => {
     fetch(
       `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?q=${searchname}&pageNumber=1&pageSize=10&autoCorrect=true`,
@@ -140,33 +152,9 @@ class App extends Component {
             imageCelebrity,
             imageCelebrityStep,
           },
-          nameCelebrity: searchname,          
+          nameCelebrity: searchname, 
+                  
         });
-      })
-      .catch((err) => console.log(err));
-  };
-
-  getCelebrityName = (i, data) => {
-
-    const nameCelebrity = data.outputs[0].data.regions[0].data.concepts[i].name;
-    this.setState({index: i + 1})    
-    return nameCelebrity;
-  };
-
-  onCelebrityCall = (index) => {
-    fetch("http://localhost:3000/celebrity", {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        input: this.state.input,
-      }),
-    })
-      .then((response) => response.json())
-      .then((response) => {
-        if (response) {
-          index = this.state.index;
-          this.getCelebrityImagesByName(this.getCelebrityName(index, response));
-        }
       })
       .catch((err) => console.log(err));
   };
@@ -207,14 +195,21 @@ class App extends Component {
         }
         this.displayFaceBox(this.calculateFaceLocation(response));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err)); 
 
-    setTimeout(this.onCelebrityCall(), 0);
+    fetch("http://localhost:3000/celebrity", myInit)
+      .then((response) => response.json())      
+      .then((response) => {
+        if (response) { 
+          this.setState({dataCelebrity: response.outputs[0].data.regions[0].data.concepts});        
+          this.getCelebrityImagesByName(this.getCelebrityName(this.state.dataCelebrity));          
+        }      
+      })
+      .catch((err) => console.log(err)); 
   };
 
-  onRecall = () => {
-    
-    this.onCelebrityCall();
+  onRecall = () => {     
+    this.getCelebrityImagesByName(this.getCelebrityName(this.state.dataCelebrity));  
   };
 
   onRouteChange = (route) => {

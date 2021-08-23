@@ -20,3 +20,11 @@
   left: 0;
   z-index: -1;
 }
+
+img {
+  width: 23rem;
+  
+  max-height: 28rem; 
+  object-fit: contain; 
+  
+}

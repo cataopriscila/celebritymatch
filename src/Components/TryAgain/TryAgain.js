@@ -34,7 +34,7 @@ const TryAgain = ({nameCelebrity, imageCelebrity, imageCelebrityStep, onRecall})
             </div>      
                         
             <div className= 'relative mt3'>
-                <img alt= '' src= {imageCelebrity} onError= {onError} width= '400rem' height= 'auto'/>                
+                <img alt= '' src= {imageCelebrity} onError= {onError} />                
             </div>
             <div ref= {imgRef}></div>                                   
         </div>
