@@ -1,17 +1,25 @@
 import { Component } from "react";
+import validator from "validator";
+
+
 
 class Register extends Component {
     constructor(props){
         super(props);
         this.state = {
+            name: '',
             email: '',
             password: '',
-            name: '',
+            isvalidMsg: '',
+            color: 'darkred'         
             
         }
     }
-    onEmailChange = (event) => {
-        this.setState({email: event.target.value})
+
+    
+    onEmailChange = (event) => {       
+        this.setState({email: event.target.value})    
+               
     }
 
     onPasswordChange = (event)=>{
@@ -20,29 +28,39 @@ class Register extends Component {
 
     onNameChange = (event)=>{
         this.setState({name: event.target.value})
-    }
+    }   
 
     onSubmitRegister = () =>{
-        fetch('http://localhost:3000/register', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password,
-                name: this.state.name
+
+        if(validator.isEmail(this.state.email)) {
+            fetch('http://localhost:3000/register', {
+                method: 'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    name: this.state.name,
+                    email: this.state.email,
+                    password: this.state.password
+                    
+                })
+            }).then(response => response.json())
+            .then(user => {            
+                if(user.id) {
+                  this.props.loadUser(user);  
+                  this.props.onRouteChange('home');  
+                }
             })
-        }).then(response => response.json())
-        .then(user => {            
-            if(user.id) {
-              this.props.loadUser(user);  
-              this.props.onRouteChange('home');  
-            }
-        })
-        .catch(err => {
-            console.log(err, 'Wrong data input!');
-                   
-        })         
-    }  
+            .catch(err => {
+                console.log(err, 'Wrong data input!');                       
+            }) 
+        } else {
+            this.setState({
+                isvalidMsg: 'Invalid email or password!',
+                color: 'darkred'})
+        }   
+        
+                    
+    }                
+    
     render() {
          
        return(
@@ -52,7 +70,7 @@ class Register extends Component {
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                     <legend className="f2 fw6 ph0 mh0">Register</legend>
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
+                        <label className="db fw6 lh-copy f5" htmlFor="name">Name</label>
                         <input
                         onChange= {this.onNameChange} 
                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
@@ -62,17 +80,22 @@ class Register extends Component {
                         />
                     </div>
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                        <label className="db fw6 lh-copy f5" htmlFor="email-address">Email</label>
                         <input
-                        onChange= {this.onEmailChange} 
-                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                        onChange= {this.onEmailChange}                        
+                        className="pa2 mb2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         type="email" 
                         name="email-address"
                         id="email-address"                        
                         />
+                        <span style={{                            
+                            fontWeight: 'bold',
+                            color: this.state.color
+                            }}                              
+                        >{this.state.isvalidMsg}</span>
                     </div>
                     <div className="mv3 required">
-                        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                        <label className="db fw6 lh-copy f5" htmlFor="password">Password</label>
                         <input
                         onChange= {this.onPasswordChange} 
                         className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
