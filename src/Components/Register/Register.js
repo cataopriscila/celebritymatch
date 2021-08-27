@@ -13,8 +13,11 @@ class Register extends Component {
             color: ''          
         }
     }
-    onEmailChange = (event) => {
-        this.setState({email: event.target.value})
+
+    
+    onEmailChange = (event) => {       
+        this.setState({email: event.target.value})    
+               
     }
 
     onPasswordChange = (event)=>{
@@ -23,7 +26,7 @@ class Register extends Component {
 
     onNameChange = (event)=>{
         this.setState({name: event.target.value})
-    }
+    }   
 
     onSubmitRegister = () =>{
 
@@ -63,7 +66,7 @@ class Register extends Component {
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                     <legend className="f2 fw6 ph0 mh0">Register</legend>
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" htmlFor="name">Name</label>
+                        <label className="db fw6 lh-copy f5" htmlFor="name">Name</label>
                         <input
                         onChange= {this.onNameChange} 
                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
@@ -73,10 +76,10 @@ class Register extends Component {
                         />
                     </div>
                     <div className="mt3">
-                        <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                        <label className="db fw6 lh-copy f5" htmlFor="email-address">Email</label>
                         <input
-                        onChange= {this.onEmailChange} 
-                        className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
+                        onChange= {this.onEmailChange}                        
+                        className="pa2 mb2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         type="email" 
                         name="email-address"
                         id="email-address"                  
@@ -89,7 +92,7 @@ class Register extends Component {
 
                     </div>
                     <div className="mv3 required">
-                        <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                        <label className="db fw6 lh-copy f5" htmlFor="password">Password</label>
                         <input
                         onChange= {this.onPasswordChange} 
                         className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
