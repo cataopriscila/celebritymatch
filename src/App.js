@@ -123,8 +123,7 @@ class App extends Component {
 
   getCelebrityName = (data) => {
      
-    let i = this.state.index;    
-    // const nameCelebrity = data.outputs[0].data.regions[0].data.concepts[i].name;
+    let i = this.state.index;     
     const celebrity = data[i].name;
     this.setState({index: i + 1})    
     return celebrity;
