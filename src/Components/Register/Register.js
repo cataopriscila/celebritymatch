@@ -1,13 +1,16 @@
 import { Component } from "react";
+import validator from "validator";
+
 
 class Register extends Component {
     constructor(props){
         super(props);
         this.state = {
+            name: '',
             email: '',
             password: '',
-            name: '',
-            
+            isvalidMsg: '',
+            color: ''          
         }
     }
     onEmailChange = (event) => {
@@ -23,13 +26,16 @@ class Register extends Component {
     }
 
     onSubmitRegister = () =>{
-        fetch('http://localhost:3000/register', {
+
+        if(validator.isEmail(this.state.email)) {
+
+            fetch('http://localhost:3000/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
+                name: this.state.name,
                 email: this.state.email,
-                password: this.state.password,
-                name: this.state.name
+                password: this.state.password                
             })
         }).then(response => response.json())
         .then(user => {            
@@ -42,7 +48,12 @@ class Register extends Component {
             console.log(err, 'Wrong data input!');
                    
         })         
-    }  
+    } else {
+        this.setState({
+            isvalidMsg: 'Invalid email or password!',
+            color: 'darkred'})
+    }        
+}  
     render() {
          
        return(
@@ -68,8 +79,14 @@ class Register extends Component {
                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         type="email" 
                         name="email-address"
-                        id="email-address"                        
+                        id="email-address"                  
                         />
+                    <span style={{                            
+                            fontWeight: 'bold',
+                            color: this.state.color
+                            }}                              
+                        >{this.state.isvalidMsg}</span>    
+
                     </div>
                     <div className="mv3 required">
                         <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
