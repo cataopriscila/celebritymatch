@@ -13,7 +13,6 @@ class Register extends Component {
             color: ''          
         }
     }
-
     
     onEmailChange = (event) => {       
         this.setState({email: event.target.value})    
@@ -88,8 +87,7 @@ class Register extends Component {
                             fontWeight: 'bold',
                             color: this.state.color
                             }}                              
-                        >{this.state.isvalidMsg}</span>    
-
+                        >{this.state.isvalidMsg}</span>
                     </div>
                     <div className="mv3 required">
                         <label className="db fw6 lh-copy f5" htmlFor="password">Password</label>
