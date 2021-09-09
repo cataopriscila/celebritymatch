@@ -10,3 +10,16 @@
     background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;;
     background-position-x: 56px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
 }
+
+.paraghaphAlert {
+    display: inline-block;    
+    background-color: whitesmoke;    
+
+}
+
+.okParagraph { 
+    margin: 0 8rem;
+    padding: .8rem 0;   
+    background-color: indigo;    
+
+}

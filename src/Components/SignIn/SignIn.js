@@ -29,8 +29,7 @@ class SignIn extends Component {
        this.setState({isNotRegistred: false}); 
     }
 
-    onSubmitSignIn = () =>{
-        
+    onSubmitSignIn = () =>{        
         fetch('http://localhost:3000/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},

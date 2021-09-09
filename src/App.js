@@ -156,43 +156,46 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
-  onButtonSubmit = () => {
+  onImageSubmit = (e) => {    
     
+    if(this.state.input.includes('http')) {
     this.loadReset();
     this.setState({ imageUrl: this.state.input });
 
-    const myInit = {
+     const myInit = {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         input: this.state.input,
       }),
     };
+   
 
     fetch("http://localhost:3000/faceimage", myInit)
-      .then((response) => response.json())
-      .then((response) => {
-        if (response) {
-          fetch("http://localhost:3000/attempts", {
-            method: "put",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              id: this.state.user.id,
-            }),
+    .then((response) => response.json())
+    .then((response) => {
+      if (response) {
+        fetch("http://localhost:3000/attempts", {
+          method: "put",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: this.state.user.id,
+          }),
+        })
+          .then(response => response.json())
+          .then(updatedEntries => {
+            this.setState(
+              Object.assign(this.state.user, {
+                entries: updatedEntries,
+              })
+            );
           })
-            .then((response) => response.json())
-            .then((updatedEntries) => {
-              this.setState(
-                Object.assign(this.state.user, {
-                  entries: updatedEntries,
-                })
-              );
-            })
-            .catch((err) => console.log(err));
-        }
-        this.displayFaceBox(this.calculateFaceLocation(response));
-      })
-      .catch((err) => console.log(err)); 
+          .catch((err) => console.log(err));
+      }
+      this.displayFaceBox(this.calculateFaceLocation(response));
+    })
+    .catch((err) => console.log(err)); 
+
 
     fetch("http://localhost:3000/celebrity", myInit)
       .then((response) => response.json())      
@@ -203,6 +206,10 @@ class App extends Component {
         }      
       })
       .catch((err) => console.log(err)); 
+    } else {
+      e.preventDefault();
+      alert("Please paste a valid URL")
+    }  
   };
 
   onRecall = () => {     
@@ -244,7 +251,7 @@ class App extends Component {
             />
             <ImageLinkForm
               onInputChange={this.onInputChange}
-              onButtonSubmit={this.onButtonSubmit}
+              onImageSubmit={this.onImageSubmit}
             />
             <FaceRecognition imageUrl={imageUrl} box={box} />
             <CelebrityImage
