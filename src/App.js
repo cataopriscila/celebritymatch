@@ -136,7 +136,7 @@ class App extends Component {
         method: "GET",
         headers: {
           "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
-          "x-rapidapi-key": process.env.RAPID_API_KEY,
+          "x-rapidapi-key": process.env.RAPIDAPI_KEY,
         },
       }
     )
