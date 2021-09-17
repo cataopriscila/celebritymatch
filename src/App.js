@@ -132,9 +132,9 @@ class App extends Component {
   getCelebrityImagesByName = (searchname) => {
     fetch(
       `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?q=${searchname}&pageNumber=1&pageSize=10&autoCorrect=true`,
-      {
+      { credentials: 'include',
         method: "GET",
-        headers: {
+        headers: {          
           "Content-Type": "application/json",
           "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
           "x-rapidapi-key": process.env.RAPIDAPI_KEY,
