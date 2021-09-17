@@ -1,6 +1,6 @@
 import './ImageLinkForm.css';
 
-export default function ImageLinkForm ({onInputChange, onImageSubmit, isNotValidURL, backToLinkForm, onClear}) {    
+export default function ImageLinkForm ({onInputChange, onImageSubmit, isNotValidURL, backToLinkForm, onClear, inputValue}) {    
     
     return(
         <div>
@@ -12,6 +12,7 @@ export default function ImageLinkForm ({onInputChange, onImageSubmit, isNotValid
                    <input
                     className='f5 pa2 w-70 center ' 
                     type='text'
+                    value={inputValue}
                     placeholder='Paste an image URL'
                     onChange={onInputChange}                    
                     />              

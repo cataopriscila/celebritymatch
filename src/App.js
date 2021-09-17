@@ -56,6 +56,7 @@ const particlesOptions = {
 
 const initialState = {
   input: "",
+  inputValue: "",
   imageUrl: "",
   isNotValidURL: false,
   nameCelebrity: "",
@@ -93,7 +94,7 @@ class App extends Component {
 
   loadReset = () => {
     this.setState({
-      imageUrl: "",
+      imageUrl: "",      
       nameCelebrity: "",
       index: 0,
       images: {},
@@ -119,8 +120,8 @@ class App extends Component {
     this.setState({ box: box });
   };
 
-  onInputChange = (event) => {
-    this.setState({ input: event.target.value });
+  onInputChange = (event) => {    
+    this.setState({ input: event.target.value, inputValue: event.target.value });
   };
 
   getCelebrityName = (data) => {
@@ -156,7 +157,7 @@ class App extends Component {
       .catch((err) => console.log(err));
   };
 
-  onImageSubmit = (e) => {
+  onImageSubmit = () => {
     const myInit = {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -215,6 +216,7 @@ class App extends Component {
 
   onClear = () => {    
     this.loadReset();
+    this.setState({inputValue: ""})
   }
 
   onRecall = () => {
@@ -246,7 +248,8 @@ class App extends Component {
       route,
       images,
       nameCelebrity,
-      isTarget,
+      isNotValidURL,
+      inputValue
     } = this.state;
     return (
       <div className="App">
@@ -266,7 +269,8 @@ class App extends Component {
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onImageSubmit={this.onImageSubmit}
-              isTarget={isTarget}
+              isNotValidURL= {isNotValidURL}
+              inputValue={inputValue}
               backToLinkForm={() => this.setState({ isNotValidURL: false })}
               onClear={this.onClear}
             />
