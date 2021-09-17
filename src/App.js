@@ -135,12 +135,12 @@ class App extends Component {
       {
         method: "GET",
         headers: {
+          "Content-Type": "application/json",
           "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
           "x-rapidapi-key": process.env.RAPIDAPI_KEY,
         },
       }
-    )
-      .then((response) => response.json())
+    ).then((response) => response.json())
       .then((response) => {
         const imageCelebrity = response.value[0].url;
         const imageCelebrityStep = response.value[1].url;
