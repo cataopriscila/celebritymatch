@@ -1,4 +1,4 @@
-export default function Rank ({ userName, userEntries}) {
+export default function Attempts ({ userName, userEntries}) {
     return(
         <div className=" mb4">
             <div className= 'white f3'>

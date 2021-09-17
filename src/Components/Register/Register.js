@@ -29,9 +29,9 @@ class Register extends Component {
 
     onSubmitRegister = () =>{
 
-        if(validator.isEmail(this.state.email)) {
+        if(validator.isEmail(this.state.email) && validator.isStrongPassword(this.state.password)) {
 
-            fetch('http://localhost:3000/register', {
+            fetch('https://quiet-woodland-56741.herokuapp.com/register', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -52,7 +52,7 @@ class Register extends Component {
         })         
     } else {
         this.setState({
-            isvalidMsg: 'Invalid email or password!',
+            isvalidMsg: 'Invalid email or weak password!',
             color: 'darkred'})
     }        
 }  

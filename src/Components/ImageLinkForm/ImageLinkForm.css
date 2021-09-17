@@ -11,15 +11,9 @@
     background-position-x: 56px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
 }
 
-.paraghaphAlert {
-    display: inline-block;    
-    background-color: whitesmoke;    
 
-}
-
-.okParagraph { 
+.alertButton { 
     margin: 0 8rem;
     padding: .8rem 0;   
-    background-color: indigo;    
-
-}
+    background-color: indigo;
+    cursor: pointer }

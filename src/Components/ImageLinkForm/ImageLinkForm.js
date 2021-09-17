@@ -1,6 +1,6 @@
 import './ImageLinkForm.css';
 
-export default function ImageLinkForm ({onInputChange, onImageSubmit}) {    
+export default function ImageLinkForm ({onInputChange, onImageSubmit, isTarget, backToLinkForm}) {    
     
     return(
         <div>
@@ -22,13 +22,21 @@ export default function ImageLinkForm ({onInputChange, onImageSubmit}) {
                     >Detect</button> 
                 </div>               
             </div>
-            <div
-            style={{display: 'none'}} 
-            className= 'w-20 black paraghaphAlert center pa3 br3 shadow-3 f5 mt4'>                
-                <p>
-                {`PLEASE PASTE A VALID URL`}
-                </p>
-                <p className='okParagraph br3'>{`OK`}</p>                
+            <div                       
+            style={isTarget? {display: 'inline-block'}  : {display: 'none'}}
+            className='w-20 white b center pa3 br3 shadow-3 f4 mt4 '
+            >
+                <div className= ''>                    
+                        <p>
+                        {`PLEASE PASTE A VALID URL`}
+                        </p>
+                        <p 
+                        className='br3 white alertText alertButton'
+                        onClick={backToLinkForm}>
+                        {`OK`}
+                        </p>
+                                       
+                </div>                               
             </div>
         </div>
     );

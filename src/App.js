@@ -2,7 +2,7 @@ import "./App.css";
 import ImageLinkForm from "./Components/ImageLinkForm/ImageLinkForm";
 import Logo from "./Components/Logo/Logo";
 import Navigation from "./Components/Navigaton/Navigation";
-import Rank from "./Components/Rank/Rank";
+import Attempts from "./Components/Rank/Attempts";
 import Particles from "react-particles-js";
 import { Component } from "react";
 import FaceRecognition from "./Components/FaceRecognition/FaceRecognition";
@@ -12,7 +12,8 @@ import Footer from "./Components/Footer/Footer";
 import CelebrityImage from "./Components/CelebrityImage/CelebrityImage";
 import TryAgain from "./Components/TryAgain/TryAgain";
 
-const API_KEY =`${process.env.REACT_APP_RAPID_API_KEY}`;
+const API_KEY = `${process.env.REACT_APP_RAPID_API_KEY}`;
+
 
 const particlesOptions = {
   particles: {
@@ -57,7 +58,8 @@ const particlesOptions = {
 const initialState = {
   input: "",
   imageUrl: "",
-  nameCelebrity: "",  
+  isTarget: false,
+  nameCelebrity: "",
   index: 0,
   images: {},
   box: {},
@@ -119,13 +121,12 @@ class App extends Component {
 
   onInputChange = (event) => {
     this.setState({ input: event.target.value });
-  };  
+  };
 
   getCelebrityName = (data) => {
-     
-    let i = this.state.index;     
+    let i = this.state.index;
     const celebrity = data[i].name;
-    this.setState({index: i + 1})    
+    this.setState({ index: i + 1 });
     return celebrity;
   };
 
@@ -136,7 +137,7 @@ class App extends Component {
         method: "GET",
         headers: {
           "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
-          "x-rapidapi-key":API_KEY,
+          "x-rapidapi-key": API_KEY,
         },
       }
     )
@@ -149,71 +150,73 @@ class App extends Component {
             imageCelebrity,
             imageCelebrityStep,
           },
-          nameCelebrity: searchname, 
-                  
+          nameCelebrity: searchname,
         });
       })
       .catch((err) => console.log(err));
   };
 
-  onImageSubmit = (e) => {    
-    
-    if(this.state.input.includes('http')) {
-    this.loadReset();
-    this.setState({ imageUrl: this.state.input });
-
-     const myInit = {
+  onImageSubmit = (e) => {
+    const myInit = {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         input: this.state.input,
       }),
     };
-   
 
-    fetch("http://localhost:3000/faceimage", myInit)
-    .then((response) => response.json())
-    .then((response) => {
-      if (response) {
-        fetch("http://localhost:3000/attempts", {
-          method: "put",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            id: this.state.user.id,
-          }),
-        })
-          .then(response => response.json())
-          .then(updatedEntries => {
-            this.setState(
-              Object.assign(this.state.user, {
-                entries: updatedEntries,
+    if (this.state.input.includes("http")) {
+      this.loadReset();
+      this.setState({ imageUrl: this.state.input });
+
+      fetch("https://quiet-woodland-56741.herokuapp.com/faceimage", myInit)
+        .then((response) => response.json())
+        .then((response) => {
+          if (response) {
+            fetch("https://quiet-woodland-56741.herokuapp.com/attempts", {
+              method: "put",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: this.state.user.id,
+              }),
+            })
+              .then((response) => response.json())
+              .then((updatedEntries) => {
+                this.setState(
+                  Object.assign(this.state.user, {
+                    entries: updatedEntries,
+                  })
+                );
               })
+              .catch(console.log);
+          }
+          this.displayFaceBox(this.calculateFaceLocation(response));
+        })
+        .catch((err) => console.log(err));
+
+      fetch("https://quiet-woodland-56741.herokuapp.com/celebrity", myInit)
+        .then((response) => response.json())
+        .then((response) => {
+          if (response && this.state.input.includes("http")) {
+            this.setState({
+              dataCelebrity: response.outputs[0].data.regions[0].data.concepts,
+            });
+            this.getCelebrityImagesByName(
+              this.getCelebrityName(this.state.dataCelebrity)
             );
-          })
-          .catch((err) => console.log(err));
-      }
-      this.displayFaceBox(this.calculateFaceLocation(response));
-    })
-    .catch((err) => console.log(err)); 
-
-
-    fetch("http://localhost:3000/celebrity", myInit)
-      .then((response) => response.json())      
-      .then((response) => {
-        if (response) { 
-          this.setState({dataCelebrity: response.outputs[0].data.regions[0].data.concepts});        
-          this.getCelebrityImagesByName(this.getCelebrityName(this.state.dataCelebrity));          
-        }      
-      })
-      .catch((err) => console.log(err)); 
+          }
+        })
+        .catch((err) => console.log(err));
     } else {
       e.preventDefault();
-      alert("Please paste a valid URL")
-    }  
+      this.setState({ isTarget: true });
+    }
   };
 
-  onRecall = () => {     
-    this.getCelebrityImagesByName(this.getCelebrityName(this.state.dataCelebrity));  
+  onRecall = () => {
+    this.getCelebrityImagesByName(
+      this.getCelebrityName(this.state.dataCelebrity)
+    );
   };
 
   onRouteChange = (route) => {
@@ -232,8 +235,15 @@ class App extends Component {
   };
 
   render() {
-    const { isSignedIn, imageUrl, box, route, images, nameCelebrity } =
-      this.state;
+    const {
+      isSignedIn,
+      imageUrl,
+      box,
+      route,
+      images,
+      nameCelebrity,
+      isTarget,
+    } = this.state;
     return (
       <div className="App">
         <Particles className="Particles" params={particlesOptions} />
@@ -245,13 +255,15 @@ class App extends Component {
         {route === "home" ? (
           <div>
             <Logo />
-            <Rank
+            <Attempts
               userName={this.state.user.name}
               userEntries={this.state.user.entries}
             />
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onImageSubmit={this.onImageSubmit}
+              isTarget={isTarget}
+              backToLinkForm={() => this.setState({ isTarget: false })}
             />
             <FaceRecognition imageUrl={imageUrl} box={box} />
             <CelebrityImage
@@ -259,9 +271,7 @@ class App extends Component {
               imageCelebrityStep={images.imageCelebrityStep}
               nameCelebrity={nameCelebrity}
             />
-            <TryAgain
-             nameCelebrity={nameCelebrity} 
-             onRecall={this.onRecall} />
+            <TryAgain nameCelebrity={nameCelebrity} onRecall={this.onRecall} />
           </div>
         ) : route === "signin" ? (
           <SignIn onRouteChange={this.onRouteChange} loadUser={this.loadUser} />
