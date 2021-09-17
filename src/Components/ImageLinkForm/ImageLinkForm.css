@@ -13,7 +13,7 @@
 
 
 .alertButton { 
-    margin: 0 8rem;
+    margin: 8rem 0;
     padding: .8rem 0;   
-    background-color: indigo;
+    background-color: grey;
     cursor: pointer }

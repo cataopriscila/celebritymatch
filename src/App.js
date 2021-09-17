@@ -207,8 +207,8 @@ class App extends Component {
         })
         .catch((err) => console.log(err));
     } else {
-      this.loadReset();
       e.preventDefault();
+      this.loadReset();      
       this.setState({ isTarget: true });
     }
   };
