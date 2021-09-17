@@ -12,6 +12,8 @@ import Footer from "./Components/Footer/Footer";
 import CelebrityImage from "./Components/CelebrityImage/CelebrityImage";
 import TryAgain from "./Components/TryAgain/TryAgain";
 
+const API_KEY = process.env.RAPIDAPI_KEY;
+
 const particlesOptions = {
   particles: {
     number: { value: 90, density: { enable: true, value_area: 1800 } },
@@ -140,7 +142,7 @@ class App extends Component {
         method: "GET",
         headers: {
           "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
-          "x-rapidapi-key": `${process.env.RAPIDAPI_KEY}`,
+          "x-rapidapi-key": `${API_KEY}`,
         },
       }
     )
