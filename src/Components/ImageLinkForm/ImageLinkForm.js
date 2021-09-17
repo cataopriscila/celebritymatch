@@ -1,6 +1,6 @@
 import './ImageLinkForm.css';
 
-export default function ImageLinkForm ({onInputChange, onImageSubmit, isTarget, backToLinkForm}) {    
+export default function ImageLinkForm ({onInputChange, onImageSubmit, isNotValidURL, backToLinkForm, onClear}) {    
     
     return(
         <div>
@@ -14,16 +14,24 @@ export default function ImageLinkForm ({onInputChange, onImageSubmit, isTarget, 
                     type='text'
                     placeholder='Paste an image URL'
                     onChange={onInputChange}                    
-                    />                
+                    />              
                     
                     <button 
-                    className= 'w-30 grow f4 link ph3 pv2 dib white bg-light-purple'                    
+                    className= 'w-20 grow f4 link ph3 pv2 dib white bg-light-purple'                    
                     onClick= {onImageSubmit}
-                    >Detect</button> 
-                </div>               
+                    >Detect</button>
+                    <button 
+                    className= 'w-10 grow f4 link ml4 ph1 pv2 dib white bg-light-purple'                    
+                    onClick= {onClear}
+                    >Clear</button> 
+                </div>
+                
+                
+
+                             
             </div>
             <div                       
-            style={isTarget? {display: 'inline-block'}  : {display: 'none'}}
+            style={isNotValidURL? {display: 'inline-block'}  : {display: 'none'}}
             className='w-20 white b center pa3 br3 shadow-3 f4 mt4 '
             >
                 <div className= ''>                    
@@ -31,7 +39,7 @@ export default function ImageLinkForm ({onInputChange, onImageSubmit, isTarget, 
                         {`PLEASE PASTE A VALID URL`}
                         </p>
                         <p 
-                        className='br3 white alertText alertButton'
+                        className='br3 white alertButton'
                         onClick={backToLinkForm}>
                         {`OK`}
                         </p>

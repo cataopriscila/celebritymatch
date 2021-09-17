@@ -57,7 +57,7 @@ const particlesOptions = {
 const initialState = {
   input: "",
   imageUrl: "",
-  isTarget: false,
+  isNotValidURL: false,
   nameCelebrity: "",
   index: 0,
   images: {},
@@ -93,6 +93,7 @@ class App extends Component {
 
   loadReset = () => {
     this.setState({
+      imageUrl: "",
       nameCelebrity: "",
       index: 0,
       images: {},
@@ -206,12 +207,15 @@ class App extends Component {
           }
         })
         .catch((err) => console.log(err));
-    } else {
-      e.preventDefault();
-      this.loadReset();      
-      this.setState({ isTarget: true });
+    } else {            
+      this.setState({ isNotValidURL: true });
+      
     }
   };
+
+  onClear = () => {    
+    this.loadReset();
+  }
 
   onRecall = () => {
     this.getCelebrityImagesByName(
@@ -263,7 +267,8 @@ class App extends Component {
               onInputChange={this.onInputChange}
               onImageSubmit={this.onImageSubmit}
               isTarget={isTarget}
-              backToLinkForm={() => this.setState({ isTarget: false })}
+              backToLinkForm={() => this.setState({ isNotValidURL: false })}
+              onClear={this.onClear}
             />
             <FaceRecognition imageUrl={imageUrl} box={box} />
             <CelebrityImage

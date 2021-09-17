@@ -1,5 +1,5 @@
 .form {
-    width: 650px;
+    width: 50rem;
     background:
     radial-gradient(black 3px, transparent 4px),
     radial-gradient(black 3px, transparent 4px),
@@ -13,7 +13,7 @@
 
 
 .alertButton { 
-    margin: 8rem 0;
+    margin: 0 8rem;
     padding: .8rem 0;   
-    background-color: grey;
+    background-color: indigo;
     cursor: pointer }
