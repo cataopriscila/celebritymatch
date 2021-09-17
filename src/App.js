@@ -12,7 +12,7 @@ import Footer from "./Components/Footer/Footer";
 import CelebrityImage from "./Components/CelebrityImage/CelebrityImage";
 import TryAgain from "./Components/TryAgain/TryAgain";
 
-const API_KEY = `81bd3e3fa5mshf1e6ad3d469b8f8p14f2abjsna4c511b23d48`;
+const API_KEY = process.env.RAPID_API_KEY;
 
 const particlesOptions = {
   particles: {
@@ -207,6 +207,7 @@ class App extends Component {
         })
         .catch((err) => console.log(err));
     } else {
+      this.loadReset();
       e.preventDefault();
       this.setState({ isTarget: true });
     }
