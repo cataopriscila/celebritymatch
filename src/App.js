@@ -92,7 +92,7 @@ class App extends Component {
 
   loadReset = () => {
     this.setState({
-      imageUrl: "",      
+      imageUrl: "",
       nameCelebrity: "",
       index: 0,
       images: {},
@@ -118,8 +118,11 @@ class App extends Component {
     this.setState({ box: box });
   };
 
-  onInputChange = (event) => {    
-    this.setState({ input: event.target.value, inputValue: event.target.value });
+  onInputChange = (event) => {
+    this.setState({
+      input: event.target.value,
+      inputValue: event.target.value,
+    });
   };
 
   getCelebrityName = (data) => {
@@ -130,17 +133,18 @@ class App extends Component {
   };
 
   getCelebrityImagesByName = (searchname) => {
+    
     fetch(
       `https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/Search/ImageSearchAPI?q=${searchname}&pageNumber=1&pageSize=10&autoCorrect=true`,
-      { credentials: 'include',
+      {
         method: "GET",
-        headers: {          
-          "Content-Type": "application/json",
+        headers: {
           "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
-          "x-rapidapi-key": process.env.RAPIDAPI_KEY,
+          "x-rapidapi-key": `${process.env.RAPIDAPI_KEY}`,
         },
       }
-    ).then((response) => response.json())
+    )
+      .then((response) => response.json())
       .then((response) => {
         const imageCelebrity = response.value[0].url;
         const imageCelebrityStep = response.value[1].url;
@@ -206,16 +210,15 @@ class App extends Component {
           }
         })
         .catch((err) => console.log(err));
-    } else {            
+    } else {
       this.setState({ isNotValidURL: true });
-      
     }
   };
 
-  onClear = () => {    
+  onClear = () => {
     this.loadReset();
-    this.setState({inputValue: ""})
-  }
+    this.setState({ inputValue: "" });
+  };
 
   onRecall = () => {
     this.getCelebrityImagesByName(
@@ -247,7 +250,7 @@ class App extends Component {
       images,
       nameCelebrity,
       isNotValidURL,
-      inputValue
+      inputValue,
     } = this.state;
     return (
       <div className="App">
@@ -267,7 +270,7 @@ class App extends Component {
             <ImageLinkForm
               onInputChange={this.onInputChange}
               onImageSubmit={this.onImageSubmit}
-              isNotValidURL= {isNotValidURL}
+              isNotValidURL={isNotValidURL}
               inputValue={inputValue}
               backToLinkForm={() => this.setState({ isNotValidURL: false })}
               onClear={this.onClear}
