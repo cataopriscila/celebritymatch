@@ -12,7 +12,7 @@ import Footer from "./Components/Footer/Footer";
 import CelebrityImage from "./Components/CelebrityImage/CelebrityImage";
 import TryAgain from "./Components/TryAgain/TryAgain";
 
-const API_KEY = `${process.env.RAPIDAPI_KEY}`;
+const API_KEY = process.env.RAPIDAPI_KEY;
 
 const particlesOptions = {
   particles: {
